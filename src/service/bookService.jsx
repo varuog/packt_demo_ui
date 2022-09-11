@@ -1,5 +1,6 @@
 // import {axios} from '../config/axios.config';
 export const axios = require('axios').default;
+const BASE_URL = 'http://localhost:8000';
 
 export function fetch(filter, sort, page, perPage) {
     // console.log(filter);
@@ -25,7 +26,7 @@ export function fetch(filter, sort, page, perPage) {
     // console.log(filterParam);
     // console.log(sortParam);
 
-    return axios.get('http://localhost:8000/api/book'
+    return axios.get(BASE_URL + '/api/book'
         , {
             params: {
                 page: page,
@@ -39,7 +40,7 @@ export function fetch(filter, sort, page, perPage) {
 
 
 export function fetchFilterOptions() {
-    return axios.get('http://localhost:8000/api/book-search-options');
+    return axios.get(BASE_URL + '/api/book-search-options');
 }
 
 
