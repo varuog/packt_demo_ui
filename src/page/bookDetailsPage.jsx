@@ -22,7 +22,6 @@ export function BookDetailsPage(props) {
   }, []);
 
 
-  const [books, setBooks] = React.useState([]);
   return (
     <BookDetailsView book={book} />
     );
