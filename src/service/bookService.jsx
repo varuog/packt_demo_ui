@@ -2,7 +2,7 @@
 export const axios = require('axios').default;
 
 export function fetch(filter, sort, page, perPage) {
-    console.log(filter);
+    // console.log(filter);
     //Handel filters
     let filterParam=[];
     let sortParam=[];
@@ -16,21 +16,22 @@ export function fetch(filter, sort, page, perPage) {
     }
     
     //Handle sorts
-    if(sort == 'popular') {
-        sortParam['popular']='DESC';
+    if(sort == 'release-year') {
+        sortParam['sort[release_year]']='DESC';
     } else if (sort == 'recent-published') {
-        sortParam['publish_year']='DESC';
+        sortParam['sort[publish_year]']='DESC';
     }
 
-    console.log(filterParam);
+    // console.log(filterParam);
+    // console.log(sortParam);
 
     return axios.get('http://localhost:8000/api/book'
         , {
             params: {
                 page: page,
-                sort: [sort],
                 perPage: perPage,
-                ...filterParam
+                ...filterParam,
+                ...sortParam
                 
             }
         });
@@ -39,4 +40,10 @@ export function fetch(filter, sort, page, perPage) {
 
 export function fetchFilterOptions() {
     return axios.get('http://localhost:8000/api/book-search-options');
+}
+
+
+
+export function fetchBook(bookid) {
+    return axios.get(`http://localhost:8000/api/book/${bookid}`);
 }

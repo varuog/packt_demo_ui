@@ -30,18 +30,24 @@ import {
 import _, { filter } from "lodash";
 
 const drawerWidth = 240;
+const filterStruct = [
+  { name: 'publish_year', value: [] },
+  { name: 'release_year', value: [] },
+  { name: 'product_type', value: [] },
+  { name: 'title', value: [] },
+  { name: 'language', value: [] },
+  { name: 'category', value: [] },
+  { name: 'concept', value: [] },
+];
 
 export function BookListingPage(props) {
   const [expanded, setExpanded] = React.useState(false);
-  const [filters, setFilters] = React.useState([
-    { name: 'publish_year', value: [] },
-    { name: 'release_year', value: [] },
-    { name: 'product_type', value: [] },
-    { name: 'title', value: [] },
-  ]);
+
+  //Add new filter srrcture where needed
+  const [filters, setFilters] = React.useState(filterStruct);
 
   const [page, setPage] = React.useState(1);
-  const [sort, setSort] = React.useState('popular');
+  const [sort, setSort] = React.useState('release-year');
   const [books, setBooks] = React.useState([]);
   const [view, setView] = React.useState('thumb');
   // const [search, setSearch] = React.useState('');
@@ -50,6 +56,7 @@ export function BookListingPage(props) {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [filterOptions, setFilterOptions] = React.useState([]);
 
+  const [test, setTest] = React.useState(''); //For testing purpopse
 
 
   let navigate = useNavigate();
@@ -72,7 +79,7 @@ export function BookListingPage(props) {
 
 
   React.useEffect(() => {
-    console.log("DDDD");
+    // console.log("DDDD");
     let response;
     let booksData = [];
     let metaData = [];
@@ -87,8 +94,8 @@ export function BookListingPage(props) {
       metaData = response.data.meta;
       page = page ? page : metaData.currentPage;
 
-      console.log(booksData);
-      console.log(metaData);
+      // console.log(booksData);
+      // console.log(metaData);
 
       setBooks(booksData);
       setTotalPage(metaData.lastPage);
@@ -109,8 +116,15 @@ export function BookListingPage(props) {
   }
 
   function handleToggleView(ev) {
-    setView(ev.target.value);
+    console.log(ev.target.value);
+    if(ev.target.value) {
+      setView(ev.target.value);
+    }
   }
+
+  // function handleTest(ev) {
+  //   setTest(ev.target.value);
+  // }
 
   function handleSearchChange(ev) {
     // setSearch(ev.target.value);
@@ -130,9 +144,20 @@ export function BookListingPage(props) {
     // setSearch(ev.target.value);
   }
 
+function handleFilterReset() {
+  // console.log('RESET')
+  setFilters((prevfilters) => {
+    return prevfilters.map((filterOpt) => {
+      // console.log(filterOpt)
+      filterOpt.value=[];
+      return filterOpt;
+    });
+
+  });
+}
 
   function handleFilter(ev, filter, currentFilterVal) {
-    console.log("EVENT");
+    // console.log("EVENT");
     // console.log(filters);
 
     setFilters((prevfilters) => {
@@ -206,7 +231,7 @@ export function BookListingPage(props) {
         <Toolbar />
         {/* Filter list box*/}
         
-        <BookFilterSideBarComp filterOptions={filterOptions} onHandleFilter={handleFilter}/>
+        <BookFilterSideBarComp filterOptions={filterOptions} onHandleFilter={handleFilter} />
       </Drawer>
       {/* Sorting  Box*/}
 
@@ -221,7 +246,9 @@ export function BookListingPage(props) {
 
         <BookFilterTopBarComp onHandlePerPage={handlePerPage}
           onHandleSort={handleSort} onHandleToggleView={handleToggleView}
-          onHandleSearchChange={handleSearchChange} sort={sort} 
+          onHandleSearchChange={handleSearchChange} 
+          onHandleFilterReset={handleFilterReset}
+          sort={sort} 
             filters={filters} 
             perPage={perPage} 
             view={view}
@@ -235,6 +262,12 @@ export function BookListingPage(props) {
         {bookListView}
         <Pagination count={totalPage} page={currentPage} onChange={onPaginate} />
 
+        {/* <TextField
+                            id="book-search"
+                            label="Search"
+                            onChange={handleTest}
+                            value={test}
+                        /> */}
       </Box>
     </Box>
   );

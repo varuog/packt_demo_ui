@@ -1,5 +1,5 @@
 import { ArrowBackIosTwoTone } from "@mui/icons-material";
-import { Box, FormControl, FormGroup, Grid, InputLabel, MenuItem, Select, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Button, FormControl, FormGroup, Grid, InputLabel, MenuItem, Select, TextField, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import ReorderIcon from '@mui/icons-material/Reorder';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 
@@ -32,7 +32,7 @@ export function BookFilterTopBarComp(props) {
                             onChange={props.onHandleSort}
                             disabled={props.loading}
                         >
-                            <MenuItem value={'popular'}>Popular</MenuItem>
+                            <MenuItem value={'release-year'}>Release Year</MenuItem>
                             <MenuItem value={'recent-published'}>Recently Published</MenuItem>
                         </Select>
                     </FormControl>
@@ -79,6 +79,7 @@ export function BookFilterTopBarComp(props) {
                 </Grid>
 
                 <Grid item xs={2} >
+                <Button variant="contained" onClick={props.onHandleFilterReset}>Reset</Button>
                 </Grid>
             </Grid>
 
